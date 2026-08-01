@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="https://pinimg.com">
+    <title>Secret file</title>
+    
+    <!-- Ép trình duyệt luôn nạp style.css mới nhất bằng mốc thời gian thực -->
+    <script>
+        document.write('<link rel="stylesheet" href="style.css?v=' + Date.now() + '">');
+    </script>
+
+    <style>
+        #stage2, #stage3, #victoryReward, #stage4, #stage5, #stage6, #finalVictory, #hintModal {
+            display: none;
+        }
+        .hint-popup.active {
+            display: flex !important;
+        }
+        /* Style nạp cứng riêng cho nút bấm tối cao của Stage 6 chống phân tách */
+        .btn-override-stage6 {
+            margin-top: 15px !important;
+            padding: 10px 40px !important;
+            background-color: #ff3366 !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+            border-radius: 4px !important;
+            box-shadow: 0 0 15px #ff3366 !important;
+            transition: 0.2s !important;
+        }
+        .btn-override-stage6:hover {
+            background-color: #ffffff !important;
+            color: #ff3366 !important;
+            box-shadow: 0 0 25px #ffffff !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BẢNG CẢNH BÁO THIẾT BỊ DI ĐỘNG -->
+    <div id="deviceAlertModal" class="device-popup">
+        <div class="device-content">
+            <h4 style="color: #ff3366; margin-bottom: 12px; letter-spacing: 2px;">⚠️ SYSTEM WARNING</h4>
+            <p style="color: #ffffff; font-size: 15px; line-height: 22px; margin-bottom: 25px;">
+                Do you still want to continue on Phone, iPad?
+            </p>
+            <button class="btn-device-proceed" id="btnDeviceProceed">YES, PROCEED</button>
+        </div>
+    </div>
+
+    <!-- Nút ẩn Master Key Stage 4 -->
+    <button id="hiddenButton" class="hidden-target-btn" onclick="clickHiddenButton()"></button>
+
+    <!-- Khối chỉ dẫn chữ trắng phía trên đầu -->
+    <div class="instructions" id="mainGuide">
+        <span>Congratulations if you've made it this far. Here is next test with string: "dyckwkabf"</span>
+        <br><br>
+        <a href="https://drive.google.com/file/d/1k6MahaqMgbac-ClWW52bVSpiXXacH9ch/view?usp=drive_link" target="_blank">Click here.</a>
+        <p>After you find the code, please come back here.</p>
+    </div>
+
+    <!-- Khung cửa sổ Pop-up ẩn hiện Hint của Stage 2 -->
+    <div id="hintModal" class="hint-popup">
+        <div class="hint-content">
+            <h4 style="color: #ff3366; margin-bottom: 10px;">SYSTEM HINT</h4>
+            <p><strong>Solution:</strong> Decode the crossword using the Eternity Code from Artemis Fowl and input the secret answer at the Paths structure.</p>
+            <button class="btn-hint" onclick="toggleHintModal(false)">CLOSE</button>
+        </div>
+    </div>
+
+    <div class="console-container" id="gameConsole">
+        
+        <!-- STAGE 1 -->
+        <div id="stage1">
+            <h3>Enter your phrase to check:</h3>
+            <input type="text" id="oNhapLieu" placeholder="Enter here..." autocomplete="off" onkeypress="if(event.key==='Enter') kiemTraKieu()">
+            <br>
+            <button class="btn-main" onclick="kiemTraKieu()">Check</button>
+        </div>
+
+        <!-- STAGE 2 -->
+        <div id="stage2">
+            <h4>PUTHS STRUCTURE: STAGE 2</h4>
+            <button class="btn-hint" onclick="toggleHintModal(true)">❓ SHOW HINT</button>
+            <p style="font-size: 13px; color: #8892b0; margin-bottom: 5px;">Your Progress:</p>
+            <div id="sequenceDisplay"></div>
+
+            <div class="matrix-map">
+                <button class="matrix-btn" onclick="pressKey('S')">S</button>
+                <button class="matrix-btn" onclick="pressKey('O')">O</button>
+                <button class="matrix-btn" onclick="pressKey('P')">P</button>
+                <button class="matrix-btn" onclick="pressKey('Y')">Y</button>
+                <button class="matrix-btn" onclick="pressKey('K')">K</button>
+                <button class="matrix-btn" onclick="pressKey('X')">X</button>
+                <button class="matrix-btn" onclick="pressKey('D')">D</button>
+                <button class="matrix-btn" onclick="pressKey('Q')">Q</button>
+                <button class="matrix-btn" onclick="pressKey('H')">H</button>
+                <button class="matrix-btn" onclick="pressKey('A')">A</button>
+                <button class="matrix-btn" onclick="pressKey('R')">R</button>
+                <button class="matrix-btn" onclick="pressKey('W')">W</button>
+                <button class="matrix-btn" onclick="pressKey('Z')">Z</button>
+                <button class="matrix-btn" onclick="pressKey('C')">C</button>
+                <button class="matrix-btn" onclick="pressKey('U')">U</button>
+                <button class="matrix-btn" onclick="pressKey('T')">T</button>
+            </div>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div id="stage3">
+            <h4>THE FINAL PROTOCOL: STAGE 3</h4>
+            <div class="riddle-text">
+                "I can melt the coldest hearts, yet I hold no warmth.<br>
+                I can travel the world without feet, but I will die if I touch the ground.<br>
+                I am born of the sky but terrified of the sun.<br>
+                What am I?"
+            </div>
+            <input type="text" id="riddleInput" placeholder="ENTER YOUR ANSWER..." autocomplete="off" onkeypress="if(event.key==='Enter') checkRiddle()">
+            <br>
+            <button class="btn-main" onclick="checkRiddle()">SUBMIT ANSWER</button>
+        </div>
+
+        <!-- LINK PHẦN THƯỞNG STAGE 3 -->
+        <div id="victoryReward" class="reward-box">
+            <p style="color: #00ffcc; font-weight: bold; margin-top: 0; font-size: 18px;">🔓 ALL PROTOCOLS CLEAR</p>
+            <p>Congratulations! You have cracked every single layer of the puzzle.</p>
+            <a href="https://ibb.co/WN8jHx1M"
+   		target="_blank"
+   		onclick="triggerLink()"
+   		style="color:#ff3366;font-weight:bold;text-decoration:underline;">
+    		👉 ACCESS DATA DECRYPTION PORTAL
+	    </a>
+        </div>
+
+        <!-- STAGE 4 -->
+        <div id="stage4">
+            <h4 style="color: #ff3366; font-size: 20px; text-shadow: 0 0 10px #ff3366;">⚠️ ANOMALY DETECTED: LEVEL 4</h4>
+            <div class="riddle-text" style="color: #ffffff;">
+                "The portal has corrupted. A microscopic master key has spawned somewhere on your monitor screen.<br>
+                It is blind to the light and shares the skin of the void.<br>
+                Find and click the hidden pixel to permanently defuse the archive."
+            </div>
+        </div>
+
+        <!-- STAGE 5 -->
+        <div id="stage5">
+            <h4>THE CORE DESTRUCTION PROTOCOL: STAGE 5</h4>
+            <div class="riddle-text" style="color: #ff3366; font-weight: bold;">⚠️ CRITICAL OVERLOAD IN PROGRESS</div>
+            <div id="timerDisplay">30</div>
+            <div id="stage5Hint" style="color: #45f3ff; font-size: 13px; font-weight: bold; margin-bottom: 15px; min-height: 18px;"></div>
+            <input type="text" id="defuseInput" placeholder="ENTER CORE OVERRIDE CODE..." autocomplete="off">
+            <br>
+            <button class="btn-main" onclick="checkDefuse()">OVERRIDE CORE</button>
+        </div>
+
+        <!-- STAGE 6 (🔴 ĐÃ FIX DỨT ĐIỂM: Sử dụng class mới hoàn toàn độc lập bọc nút bấm nạp cứng) -->
+        <div id="stage6">
+            <h4>THE INFILTRATION DETECTED: STAGE 6</h4>
+            <div class="riddle-text">
+                "The system core has stabilized, but an unauthorized transmission was intercepted.<br>
+                Decode the following Base64 system identifier to find the identity of the hacker masterminding this terminal:<br>
+                <b style='color: #66fcf1; letter-spacing: 1px;'>[dm9jYXRpb25hbA==]</b>"
+            </div>
+            <div style="display: block !important; visibility: visible !important; opacity: 1 !important; margin-top: 20px;">
+
+    <input
+        type="text"
+        id="hackerInput"
+        placeholder="ENTER HACKER ID..."
+        autocomplete="off"
+        onkeypress="if(event.key==='Enter')checkHackerIdentity()"
+        style="display:block;width:80%;margin:0 auto 15px auto;">
+
+    <button
+        class="btn-override-stage6"
+        onclick="checkHackerIdentity()">
+        SUBMIT ID
+    </button>
+
+</div>
+        </div>
+
+        <!-- FINAL VICTORY -->
+        <div id="finalVictory">
+            <h3 style="color: #00ffcc; font-size: 26px; text-shadow: 0 0 20px #00ffcc;">👑 TRUE RESOLUTION ACHIEVED 👑</h3>
+            <p style="color: #ffffff; margin-top: 15px; line-height: 22px;">
+                Congratulations, Archivist. You have successfully conquered every test layer of the <b>Secret File</b>.<br>
+                All anomaly loops are now permanently patched.
+            </p>
+            <div class="reward-box" style="border-color: #00ffcc;">
+                <p style="color: #66fcf1; font-weight: bold; margin-bottom: 5px;">🔑 GLOBAL SECURITY ACCESS KEY:</p>
+                <code style="font-size: 18px; color: #fff; letter-spacing: 2px;">SECURE_UNIVERSE_PASSED_2026</code>
+                <br><br>
+                <a href="javascript:void(0);" onclick="closeAndRedeem()" class="btn-final-redeem-link">🎁 CLICK HERE TO REDEEM YOUR ULTIMATE REWARD</a>
+            </div>
+        </div>
+
+        <p id="thongBao"></p>
+    </div>
+
+    <!-- ========================================================
+       🔮 KHU VỰC THẺ SCRIPT XỬ LÝ CHÍNH Ở ĐÁY TRANG INDEX.HTML
+       ======================================================== -->
+    <!-- 🔴 DÁN CHÍNH XÁC ĐOẠN MÃ BÔI ĐEN CỦA BẠN VÀO ĐÂY [STORY] -->
+    <!-- SCRIPT KIỂM TRA THIẾT BỊ DI ĐỘNG -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var isMobileOrTablet = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet/i.test(userAgent.toLowerCase());
+            var isNewIPad = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            if (isMobileOrTablet || isNewIPad) document.getElementById("deviceAlertModal").classList.add("active");
+        });
+        function closeDeviceAlert() { document.getElementById("deviceAlertModal").classList.remove("active"); }
+    </script>
+
+    <!-- Thẻ kết nối gọi file thuật toán rời chạy ngầm -->
+    <script src="logic.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+body {
+    background: radial-gradient(circle at center, rgba(31, 14, 46, 0.9) 0%, #08030f 65%, #020105 100%);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.purple-orb {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, #f48cff 0%, #bc13fe 50%, rgba(188,19,254,0) 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 45px #bc13fe, 0 0 90px #f48cff;
+    cursor: pointer;
+    z-index: 100;
+    top: -120px;
+    animation: descendOrb 4s cubic-bezier(0.25, 1, 0.5, 1) forwards, pulseOrb 1.5s infinite alternate;
+}
+
+@keyframes descendOrb {
+    0% { top: -120px; }
+    100% { top: 40%; }
+}
+
+@keyframes pulseOrb {
+    from { transform: scale(0.9); box-shadow: 0 0 25px #bc13fe; }
+    to { transform: scale(1.1); box-shadow: 0 0 65px #f48cff, 0 0 100px #bc13fe; }
+}
+
+.color-puzzle-container {
+    display: none;
+    text-align: center;
+    z-index: 20;
+    max-width: 650px;
+    width: 95%;
+    animation: textGlitchFade 0.8s ease-in-out forwards;
+}
+
+.puzzle-title-box {
+    background-color: #12051c;
+    border: 2px solid #50113c;
+    padding: 15px;
+    margin-bottom: 35px;
+    box-shadow: 0 0 15px rgba(188, 19, 254, 0.2);
+    position: relative;
+}
+
+.puzzle-main-title {
+    color: #a186b5;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.puzzle-sub-title {
+    color: #ff3366;
+    font-size: 15px;
+    margin: 8px 0 0 0;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* 🔴 ĐÃ SỬA CHUẨN XÁC: Ngụy trang dòng chữ IN HOA không ngoặc kép tiệp màu văn bản */
+.btn-cosmic-hint {
+    background: none;
+    color: #ff3366; 
+    border: none;
+    padding: 0;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: bold;
+    margin-top: 10px;
+    text-transform: uppercase; /* Ép buộc luôn in hoa chữ */
+    text-decoration: none; 
+    outline: none;
+    display: inline-block;
+    cursor: default; 
+    animation: none;
+}
+
+.btn-cosmic-hint:hover {
+    color: #ff3366 !important;
+    text-shadow: none !important;
+    transform: none !important;
+    cursor: default !important;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 440px;
+    margin: 0 auto 35px auto;
+}
+
+.color-block {
+    width: 120px;
+    height: 100px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    pointer-events: none; 
+    opacity: 0.85;
+}
+
+.c-red { background-color: #ff0000; }
+.c-pink { background-color: #ff6600; }    /* Hàng 1 Cột 2: Cam */
+.c-orange { background-color: #ffcc00; }  /* Hàng 1 Cột 3: Vàng */
+.c-dark { background-color: #1a1c1e; }
+.c-blue { background-color: #0033cc; }
+.c-purple { 
+    background-color: #d124ff; 
+    box-shadow: 0 0 15px rgba(209, 36, 255, 0.6);
+}
+
+#finalCodeInput {
+    display: block;
+    width: 70%;
+    padding: 12px 20px;
+    background-color: #050508;
+    border: 1px solid #50113c;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: inherit;
+    text-align: center;
+    outline: none;
+    border-radius: 4px;
+    margin: 0 auto;
+}
+
+#outputMsg {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 20px;
+    letter-spacing: 1px;
+}
+
+@keyframes textGlitchFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

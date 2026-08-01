@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="https://pinimg.com">
+    <title>Quantum Shifting Pattern</title>
+    <style>
+        /* ========================================================
+           1. PHẦN CSS - THIẾT KẾ PHÒNG TỐI SƯƠNG MÙ TÍM ROBLOX
+           ======================================================== */
+        body {
+            background: radial-gradient(circle at center, rgba(31, 14, 46, 0.9) 0%, #08030f 65%, #020105 100%);
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .puzzle-container {
+            text-align: center;
+            z-index: 20;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .title-box {
+            background-color: #12051c;
+            border: 2px solid #50113c;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.2);
+        }
+
+        h2 {
+            color: #a186b5;
+            font-size: 24px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #554466;
+            font-size: 14px;
+            margin: 8px 0 0 0;
+            letter-spacing: 1px;
+        }
+
+        /* DÃY CHỮ SỐ THƯỜNG (1, 2, 3, 4) HIỂN THỊ MẪU ĐỀ BÀI RANDOM */
+        .code-display {
+            font-size: 34px;
+            color: #00ffcc;
+            font-weight: bold;
+            letter-spacing: 8px;
+            margin-bottom: 35px;
+            text-shadow: 0 0 12px #00ffcc;
+            min-height: 40px;
+        }
+
+        /* KHU VỰC 4 CỘT ĐÁ MANG KÝ TỰ CỔ ĐẠI */
+        .pillar-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .cosmic-pillar {
+            background-color: #151a21;
+            border: 2px solid #50113c;
+            color: #45f3ff;
+            font-family: inherit;
+            font-size: 28px;
+            font-weight: bold;
+            width: 65px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+            outline: none;
+        }
+
+        .cosmic-pillar:hover {
+            background-color: #1f2833;
+            border-color: #45f3ff;
+            box-shadow: 0 0 12px #45f3ff;
+            transform: translateY(-4px);
+        }
+
+        .cosmic-pillar:active {
+            transform: translateY(0);
+        }
+
+        /* KHUNG CHỨA HINT TRACE NÉT ĐỨT PHÁT SÁNG */
+        #secretHintBox {
+            display: none;
+            background-color: #050508;
+            border: 2px dashed #ff3366;
+            padding: 20px;
+            max-width: 480px;
+            margin: 20px auto 0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff3366;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,51,102,0.6);
+            box-shadow: 0 0 20px rgba(255,51,102,0.4);
+        }
+
+        #statusMsg {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            min-height: 20px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================
+       2. PHẦN KHUNG XƯƠNG GIAO DIỆN PHẦN TỬ (HTML)
+       ======================================================== -->
+    <div class="puzzle-container">
+        <div class="title-box">
+            <h2>DECODE THE ALIGNMENT</h2>
+            <p>Match the numerical frequency sequence to the special glyph pillars.</p>
+        </div>
+
+        <!-- Ô hiển thị chuỗi số thường biến đổi ngẫu nhiên -->
+        <div class="code-display" id="matrixCodeTarget"></div>
+
+        <!-- 4 cây cột mang ký tự cổ đại quy đổi gõ phím: 1=Ω, 2=Ψ, 3=Σ, 4=Φ -->
+        <div class="pillar-grid">
+            <button class="cosmic-pillar" onclick="pressPillar(1)">Ω</button>
+            <button class="cosmic-pillar" onclick="pressPillar(2)">Ψ</button>
+            <button class="cosmic-pillar" onclick="pressPillar(3)">Σ</button>
+            <button class="cosmic-pillar" onclick="pressPillar(4)">Φ</button>
+        </div>
+
+        <div id="statusMsg"></div>
+
+        <!-- Khung hiện mật chỉ tối mật chính xác theo yêu cầu -->
+        <div id="secretHintBox">Trace. RBY OYPBO OB BORG</div>
+    </div>
+
+    <!-- ========================================================
+       3. PHẦN THUẬT TOÁN ĐIỀU KHIỂN XÁO TRỘN LOGIC (JAVASCRIPT)
+       ======================================================== -->
+    <script>
+        let currentTargetNumbers = []; // Mảng chứa dãy số đề bài ngẫu nhiên
+        let playerInputNumbers = [];   // Mảng chứa tiến trình nhập số của người chơi
+        let isPillarUnlocked = false;
+
+        // 🎲 HÀM TỰ ĐỘNG RANDOM SINH RA CHUỖI 6 CHỮ SỐ THƯỜNG (Từ số 1 đến 4)
+        function generateRandomCode() {
+            currentTargetNumbers = [];
+            playerInputNumbers = [];
+            
+            for (let i = 0; i < 6; i++) {
+                let randomNum = Math.floor(Math.random() * 4) + 1; // Chọn số ngẫu nhiên từ 1 đến 4
+                currentTargetNumbers.push(randomNum);
+            }
+            
+            // Đẩy chuỗi số thường (ví dụ: 142312) hiển thị rực sáng lên bảng màn hình [STORY]
+            document.getElementById("matrixCodeTarget").innerText = currentTargetNumbers.join("");
+        }
+
+        // Tự động kích hoạt đổi đề bài ngay khi tab hint.html vừa được mở lên
+        window.onload = function() {
+            generateRandomCode();
+        };
+
+        // HÀM XỬ LÝ KHI NGƯỜI CHƠI NHẤN VÀO CÁC CỘT KÝ TỰ ĐẶC BIỆT
+        function pressPillar(pillarNumberValue) {
+            if (isPillarUnlocked) return; // Nếu đã phá đảo xong thì chặn đứng tương tác
+
+            var output = document.getElementById("statusMsg");
+            playerInputNumbers.push(pillarNumberValue);
+
+            output.innerHTML = "<span style='color: #45f3ff;'>Input Buffer: " + playerInputNumbers.join(" ") + "</span>";
+
+            const currentIndex = playerInputNumbers.length - 1;
+            
+            // 🛑 LỆNH ĐỔI ĐỀ BÀI NGẪU NHIÊN KHI BẤM SAI KÝ TỰ TƯƠNG ỨNG CỦA CỘT [STORY]
+            if (playerInputNumbers[currentIndex] !== currentTargetNumbers[currentIndex]) {
+                output.innerHTML = "<span style='color: #ff3366;'>MISMATCH! FREQUENCY SHIFTING TO NEW NUMBERS...</span>";
+                
+                // Trì hoãn 1.4 giây để người chơi kịp nhìn thông báo rồi tự động reset ra dãy số mới [STORY]
+                setTimeout(function() {
+                    generateRandomCode(); // Sinh mã ngẫu nhiên mới [STORY]
+                    output.innerHTML = "";
+                }, 1400);
+                return;
+            }
+
+            // Khi người chơi so khớp chính xác từng nhịp phím theo dãy số thường hiển thị [STORY]
+            if (playerInputNumbers.length === currentTargetNumbers.length) {
+                isPillarUnlocked = true;
+                output.innerHTML = "<span style='color: #00ffcc;'>🔓 FREQUENCY INTEGRITY VERIFIED.</span>";
+                
+                // Bùng nổ hiển thị khung nét đứt chứa mật mã Trace rực rỡ ra màn hình [STORY]
+                document.getElementById("secretHintBox").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

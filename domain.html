@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="https://pinimg.com">
+    <title>The Cosmic Domain</title>
+    <link rel="stylesheet" href="domain.css">
+</head>
+<body>
+
+    <!-- Quả cầu năng lượng tím khổng lồ kích hoạt trò chơi -->
+    <div id="cosmicOrb" class="purple-orb"></div>
+
+    <div class="color-puzzle-container" id="colorPuzzleArea">
+        <!-- ĐÃ CẬP NHẬT: Dòng chữ đổi thành HOW CAN YOU GET HERE không có ngoặc kép -->
+        <div class="puzzle-title-box">
+            <p class="puzzle-main-title">There is more to unveil.</p>
+            <p class="puzzle-sub-title">COSMIC TERMINAL AREA</p>
+            <button id="systemHintBtn" class="btn-cosmic-hint">HOW CAN YOU GET HERE?</button>
+        </div>
+
+        <!-- LƯỚI 6 KHỐI MÀU SẮC CHỈ ĐỂ TRƯNG BÀY KHÔNG THỂ BẤM -->
+        <div class="color-grid">
+            <div class="color-block c-red"></div>
+            <div class="color-block c-pink"></div>
+            <div class="color-block c-orange"></div>
+            <div class="color-block c-dark"></div>
+            <div class="color-block c-blue"></div>
+            <div class="color-block c-purple"></div>
+        </div>
+
+        <!-- Ô NHẬP MẬT MÃ CUỐI CÙNG -->
+        <input type="text" id="finalCodeInput" placeholder="ENTER THE UNVEILED CODE..." autocomplete="off">
+        <div id="outputMsg"></div>
+    </div>
+
+    <script>
+        document.write('<script src="domain.js?v=' + Date.now() + '"><\/script>');
+    </script>
+</body>
+</html>

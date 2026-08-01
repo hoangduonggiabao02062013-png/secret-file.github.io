@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="https://pinimg.com">
+    <title>Quantum Code Exchange</title>
+    <style>
+        body {
+            background-color: #050508;
+            color: #c5c6c7;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .redeem-container {
+            background-color: #0f141d;
+            border: 2px solid #ff3366;
+            box-shadow: 0 0 25px rgba(255, 51, 102, 0.4);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            z-index: 100;
+            transition: all 0.5s ease;
+        }
+
+        h2, h3 {
+            color: #ff3366;
+            letter-spacing: 3px;
+            margin-top: 0;
+            text-shadow: 0 0 10px #ff3366;
+        }
+
+        p {
+            font-size: 14px;
+            color: #8892b0;
+            margin-bottom: 25px;
+            line-height: 20px;
+        }
+
+        .riddle-text {
+            color: #00ffcc;
+            font-style: italic;
+            line-height: 24px;
+            margin: 20px 0;
+            font-size: 15px;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+        }
+
+        input[type="text"] {
+            width: 85%;
+            padding: 14px 20px;
+            background-color: #050508;
+            border: 1px solid #ff3366;
+            color: #ffffff;
+            font-size: 16px;
+            font-family: inherit;
+            text-align: center;
+            outline: none;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.6);
+        }
+
+        .btn-redeem {
+            margin-top: 20px;
+            padding: 12px 35px;
+            background-color: #ff3366;
+            color: #ffffff;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.3);
+        }
+
+        .btn-redeem:hover {
+            background-color: #ff5588;
+            box-shadow: 0 0 20px #ff3366;
+        }
+
+        #outputMsg {
+            margin-top: 25px;
+            font-size: 22px;
+            font-weight: bold;
+            min-height: 30px;
+            letter-spacing: 2px;
+            transition: all 0.5s ease;
+        }
+
+        #cosmicPuzzleArea, #cosmicVictory {
+            display: none;
+            animation: glitchFade 1s ease-in-out;
+        }
+
+        .cosmic-text {
+            position: absolute;
+            color: rgba(255, 51, 102, 0.15); 
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            animation: fallDown linear forwards;
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(105vh) rotate(5deg);
+                opacity: 0;
+            }
+        }
+
+        .corrupted {
+            border-color: #00ffcc !important;
+            box-shadow: 0 0 40px #00ffcc !important;
+            animation: glitchShake 0.1s infinite;
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes glitchFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="redeem-container" id="redeemBox">
+        <div id="redeemInputStage">
+            <h2>QUANTUM ARCHIVE REDEMPTION</h2>
+            <p>Input your global clearance key to claim your ultimate entity reward.</p>
+            
+            <input type="text" id="codeInput" placeholder="ENTER ACCESS KEY HERE..." autocomplete="off">
+            <br>
+            <button class="btn-redeem" id="exchangeBtn" onclick="processRedeem()">EXCHANGE CODE</button>
+        </div>
+
+        <!-- KHU VỰC CÂU ĐỐ COSMIC ENTITY BURGER -->
+        <div id="cosmicPuzzleArea">
+            <h3>🌌 COSMIC ENTITY TRIAL</h3>
+            <p style="color: #ff3366; font-size: 12px; font-weight: bold;">⚠️ EMBEDDED PROTOCOL ACTIVATED: LAYER <span id="currentLayerNum">1</span>/5</p>
+            
+            <div class="riddle-text" id="cosmicRiddleText"></div>
+            
+            <input type="text" id="cosmicAnswerInput" placeholder="DECODE ENTITY PARAMETER..." autocomplete="off">
+            <br>
+            <button class="btn-redeem" style="background-color: #00ffcc; color: #050508;" onclick="checkCosmicAnswer()">SUBMIT QUANTUM ID</button>
+        </div>
+
+        <!-- MÀN HÌNH CHIẾN THẮNG TUYỆT ĐỐI -->
+        <div id="cosmicVictory">
+            <h2 style="color: #bc13fe; text-shadow: 0 0 25px #bc13fe;">🍔 COSMIC ENTITY ACQUIRED 🍔</h2>
+            <p style="color: #ffffff; font-size: 14px; margin-top: 15px; line-height: 22px;">
+                The dimensional rift has been permanently sealed. You have successfully gathered all 5 celestial matrix layers and summoned the legendary <b>Cosmic Entity Burger</b> from the deep void.
+            </p>
+            <div style="border: 2px dashed #bc13fe; padding: 18px; background: #050508; border-radius: 4px; font-size: 18px; font-weight: bold; color: #00ffcc; letter-spacing: 3px; text-shadow: 0 0 10px rgba(0,255,204,0.5);">
+                SERVER_STATUS: GOD_MODE_UNLOCKED
+            </div>
+        </div>
+
+        <div id="outputMsg"></div>
+    </div>
+
+    <!-- 🔴 ÉP TRÌNH DUYỆT TỰ ĐỘNG LÀM MỚI BỘ NHỚ ĐỆM ĐỂ LIÊN KẾT ĐÚNG 100% -->
+    <script>
+        document.write('<script src="redeem.js?v=' + Date.now() + '"><\/script>');
+    </script>
+</body>
+</html>
