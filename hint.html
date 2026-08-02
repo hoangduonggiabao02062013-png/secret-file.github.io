@@ -22,6 +22,7 @@
             align-items: center;
             position: relative;
         }
+
         .puzzle-container {
             text-align: center;
             z-index: 20;
@@ -116,14 +117,7 @@
             box-shadow: 0 0 20px rgba(255,51,102,0.4);
         }
 
-        #statusMsg {
-            margin-top: 15px;
-            font-size: 14px;
-            font-weight: bold;
-            min-height: 20px;
-            letter-spacing: 1px;
-        }
-    </style>
+        </style>
 </head>
 <body>
 
@@ -146,6 +140,8 @@
             <button class="cosmic-pillar" onclick="pressPillar(3)">Σ</button>
             <button class="cosmic-pillar" onclick="pressPillar(4)">Φ</button>
         </div>
+
+        
 
         <!-- Khung hiện mật chỉ tối mật chính xác theo yêu cầu -->
         <div id="secretHintBox">Trace. RBY OYPBO OB BORG</div>
@@ -183,16 +179,18 @@
             if (isPillarUnlocked) return; // Nếu đã phá đảo xong thì chặn đứng tương tác
 
             playerInputNumbers.push(pillarNumberValue);
+
+
             const currentIndex = playerInputNumbers.length - 1;
             
             // 🛑 LỆNH ĐỔI ĐỀ BÀI NGẪU NHIÊN KHI BẤM SAI KÝ TỰ TƯƠNG ỨNG CỦA CỘT [STORY]
             if (playerInputNumbers[currentIndex] !== currentTargetNumbers[currentIndex]) {
-                output.innerHTML = "<span style='color: #ff3366;'>MISMATCH! FREQUENCY SHIFTING TO NEW NUMBERS...</span>";
+
                 
                 // Trì hoãn 1.4 giây để người chơi kịp nhìn thông báo rồi tự động reset ra dãy số mới [STORY]
                 setTimeout(function() {
                     generateRandomCode(); // Sinh mã ngẫu nhiên mới [STORY]
-                    output.innerHTML = "";
+
                 }, 1400);
                 return;
             }
@@ -200,7 +198,7 @@
             // Khi người chơi so khớp chính xác từng nhịp phím theo dãy số thường hiển thị [STORY]
             if (playerInputNumbers.length === currentTargetNumbers.length) {
                 isPillarUnlocked = true;
-                output.innerHTML = "<span style='color: #00ffcc;'>🔓 FREQUENCY INTEGRITY VERIFIED.</span>";
+
                 
                 // Bùng nổ hiển thị khung nét đứt chứa mật mã Trace rực rỡ ra màn hình [STORY]
                 document.getElementById("secretHintBox").style.display = "block";
