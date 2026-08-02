@@ -44,14 +44,24 @@
 
     <!-- BẢNG CẢNH BÁO THIẾT BỊ DI ĐỘNG -->
     <div id="deviceAlertModal" class="device-popup">
-        <div class="device-content">
-            <h4 style="color: #ff3366; margin-bottom: 12px; letter-spacing: 2px;">⚠️ SYSTEM WARNING</h4>
-            <p style="color: #ffffff; font-size: 15px; line-height: 22px; margin-bottom: 25px;">
-                Do you still want to continue on Phone, iPad?
-            </p>
-            <button class="btn-device-proceed" id="btnDeviceProceed">YES, PROCEED</button>
-        </div>
-    </div>
+    	<div class="device-content">
+        	<h4 style="color: #ff3366; margin-bottom: 12px; letter-spacing: 2px;">
+            		⚠️ SYSTEM WARNING
+       		</h4>
+
+        	<p style="color: #ffffff; font-size: 15px; line-height: 22px; margin-bottom: 25px;">
+            	    Do you still want to continue on Phone, iPad?
+        	</p>
+
+        	<button
+    		    class="btn-device-proceed"
+    	   	    id="btnDeviceProceed"
+    	  	    type="button"
+    		    onclick="alert('Button works'); closeDeviceAlert();">
+    		    YES, PROCEED
+		</button>
+    	    </div>
+	</div>
 
     <!-- Nút ẩn Master Key Stage 4 -->
     <button id="hiddenButton" class="hidden-target-btn" onclick="clickHiddenButton()"></button>
@@ -208,16 +218,31 @@
     <!-- 🔴 DÁN CHÍNH XÁC ĐOẠN MÃ BÔI ĐEN CỦA BẠN VÀO ĐÂY [STORY] -->
     <!-- SCRIPT KIỂM TRA THIẾT BỊ DI ĐỘNG -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            var isMobileOrTablet = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet/i.test(userAgent.toLowerCase());
-            var isNewIPad = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            if (isMobileOrTablet || isNewIPad) document.getElementById("deviceAlertModal").classList.add("active");
+        document.addEventListener("DOMContentLoaded", function () {
+    	    const popup = document.getElementById("deviceAlertModal");
+
+    	    if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
+        	popup.style.display = "flex";
+        	popup.classList.add("active");
+    	    }
+
+	});
+        function closeDeviceAlert() {
+    	    alert("Clicked");
+            document.getElementById("deviceAlertModal").style.display = "none";
+	}
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const btn = document.getElementById("btnDeviceProceed");
+
+        btn.addEventListener("click", function () {
+            document.getElementById("deviceAlertModal").style.display = "none";
         });
-        function closeDeviceAlert() { document.getElementById("deviceAlertModal").classList.remove("active"); }
+
+    });
     </script>
 
-    <!-- Thẻ kết nối gọi file thuật toán rời chạy ngầm -->
     <script src="logic.js"></script>
 </body>
 </html>
