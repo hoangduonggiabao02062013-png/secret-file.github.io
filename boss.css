@@ -1,0 +1,1293 @@
+/* ===========================
+   THE COSMIC ENTITY BURGER
+   BOSS FIGHT
+=========================== */
+html,body{
+    translate: no;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
+    font-family:Consolas,monospace;
+
+    user-select:none;
+
+}
+
+#shakeContainer{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+}
+
+/*============================*/
+
+#space{
+
+    position:absolute;
+
+    width:100%;
+
+    height:100%;
+
+    background:
+    radial-gradient(circle at center,#24104a,#05050d 70%,#000);
+
+}
+
+/*============================*/
+
+#overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+    repeating-linear-gradient(
+
+        transparent 0px,
+
+        transparent 3px,
+
+        rgba(255,255,255,.02) 4px
+
+    );
+
+    animation:scan 6s linear infinite;
+
+}
+
+@keyframes scan{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+100%{
+
+transform:translateY(8px);
+
+}
+
+}
+
+/*============================*/
+
+#boss{
+
+position:absolute;
+
+top:50px;
+
+left:0;
+
+}
+
+/*============================*/
+
+#bossSprite{
+    width:160px;
+/* hoặc 160px */
+    height:auto;
+    object-fit:contain;
+    animation:
+    bossFloat 3s ease-in-out infinite,
+    bossGlow 2s infinite alternate;
+
+}
+
+@keyframes bossFloat{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(12px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes bossGlow{
+
+from{
+
+filter:
+
+drop-shadow(0 0 10px purple)
+
+drop-shadow(0 0 30px violet);
+
+}
+
+to{
+
+filter:
+
+drop-shadow(0 0 40px magenta)
+
+drop-shadow(0 0 80px cyan);
+
+}
+
+}
+
+/*============================*/
+
+#bossEye{
+
+position:absolute;
+
+width:22px;
+
+height:22px;
+
+border-radius:50%;
+
+background:white;
+
+top:100px;
+
+left:118px;
+
+box-shadow:
+
+0 0 20px white,
+
+0 0 60px cyan;
+
+transition:.08s;
+
+}
+#bossPupil{
+
+    position:absolute;
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    background:#111;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    box-shadow:
+    0 0 8px black;
+
+    transition:.05s linear;
+
+}
+
+/*============================*/
+
+#player{
+
+position:absolute;
+
+width:24px;
+
+height:24px;
+
+left:50%;
+
+bottom:90px;
+
+background:#00ffff;
+
+border-radius:4px;
+
+box-shadow:
+0 0 15px cyan,
+0 0 40px cyan;
+
+z-index:20;
+
+pointer-events:none;
+
+}
+
+/*============================*/
+
+#bossHpContainer{
+
+position:absolute;
+
+top:15px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:650px;
+
+text-align:center;
+
+}
+
+/*============================*/
+
+#bossName{
+
+color:white;
+
+font-size:28px;
+
+letter-spacing:4px;
+
+margin-bottom:8px;
+
+}
+
+/*============================*/
+
+#bossHpBar{
+
+width:100%;
+
+height:28px;
+
+background:#222;
+
+border:3px solid white;
+
+overflow:hidden;
+
+}
+
+/*============================*/
+
+#bossHpFill{
+
+width:100%;
+
+height:100%;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#ff2222,
+
+#ff9900
+
+);
+
+transition:.35s;
+
+}
+
+/*============================*/
+
+#bossHpText{
+
+margin-top:8px;
+
+font-size:22px;
+
+color:white;
+
+}
+
+/*============================*/
+
+#playerHp{
+
+position:absolute;
+
+top:25px;
+
+left:25px;
+
+display:flex;
+
+gap:10px;
+
+}
+
+.heart{
+
+width:28px;
+
+height:28px;
+
+background:red;
+
+clip-path:polygon(
+50% 100%,
+0 50%,
+20% 0,
+50% 20%,
+80% 0,
+100% 50%
+);
+
+box-shadow:
+
+0 0 20px red;
+
+}
+
+/*============================*/
+
+#dialogueBox{
+
+    position:fixed;
+
+    bottom:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:900px;
+
+    padding:20px;
+
+    border:4px solid white;
+
+    background:rgba(0,0,0,.85);
+
+    color:white;
+
+    font-size:22px;
+
+    z-index:20000; /* luôn nổi trên cùng */
+
+    pointer-events:none; /* không chặn chuột/touch */
+
+}
+#dialogue{
+    white-space: pre-wrap;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    word-spacing: 2px;
+}
+
+/*============================*/
+
+#phaseText{
+
+position:absolute;
+
+right:25px;
+
+top:25px;
+
+font-size:34px;
+
+font-weight:bold;
+
+color:#ff00ff;
+
+text-shadow:
+
+0 0 20px magenta;
+
+}
+
+/*============================*/
+
+#damageText{
+
+position:absolute;
+
+font-size:42px;
+
+font-weight:bold;
+
+color:gold;
+
+opacity:0;
+
+pointer-events:none;
+
+}
+
+/*============================*/
+
+#goldenLight{
+
+    position:fixed;
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background:radial-gradient(
+        white 0%,
+        #ffffff 35%,
+        rgba(255,255,255,.85) 60%,
+        rgba(255,255,255,0) 100%
+    );
+
+    box-shadow:
+        0 0 20px white,
+        0 0 50px white,
+        0 0 100px #bdefff;
+
+    display:none;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    animation:whiteOrb .8s infinite alternate;
+}
+
+@keyframes whiteOrb{
+
+    from{
+        transform:scale(.9);
+        filter:brightness(1);
+    }
+
+    to{
+        transform:scale(1.15);
+        filter:brightness(1.8);
+    }
+
+}
+#goldenLight::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-8px;
+
+    border-radius:50%;
+
+    border:2px solid rgba(255,255,255,.6);
+
+    animation:ring 1s linear infinite;
+
+}
+
+@keyframes ring{
+
+    from{
+        transform:scale(.8);
+        opacity:1;
+    }
+
+    to{
+        transform:scale(1.6);
+        opacity:0;
+    }
+
+}
+/*============================*/
+
+#trophyScreen{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    background:
+        radial-gradient(circle at center,#2d0b53,#090012 60%,#000);
+
+    overflow:hidden;
+
+    z-index:99999;
+
+}
+#trophyScreen::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        rgba(255,255,255,.8),
+        rgba(0,255,255,.25),
+        transparent 70%
+    );
+
+    filter:blur(30px);
+
+    animation:cosmicPulse 3s infinite;
+
+}
+#trophyScreen::after{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background-image:
+        radial-gradient(white 1px,transparent 1px);
+
+    background-size:45px 45px;
+
+    opacity:.5;
+
+    animation:starMove 25s linear infinite;
+
+}
+
+#trophyScreen img{
+
+    width:260px;
+
+    filter:
+
+        drop-shadow(0 0 30px white)
+        drop-shadow(0 0 70px cyan)
+        drop-shadow(0 0 150px magenta);
+
+    animation:
+
+        spin 8s linear infinite,
+        trophyFloat 2.5s ease-in-out infinite;
+
+}
+
+#trophyScreen h1{
+
+    margin-top:30px;
+
+    font-size:60px;
+
+    color:white;
+
+    text-align:center;
+
+    letter-spacing:5px;
+
+    text-shadow:
+        0 0 20px cyan,
+        0 0 60px white,
+        0 0 120px magenta;
+
+    animation:cosmicText 2s infinite alternate;
+
+}
+#continueButton{
+
+margin-top:40px;
+
+padding:18px 60px;
+
+font-size:28px;
+
+cursor:pointer;
+
+}
+@keyframes trophyFloat{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-20px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
+@keyframes cosmicText{
+
+    from{
+
+        filter:brightness(1);
+
+    }
+
+    to{
+
+        filter:brightness(2);
+
+    }
+
+}
+@keyframes cosmicPulse{
+
+    0%{
+        transform:scale(.9);
+        opacity:.4;
+    }
+
+    50%{
+        transform:scale(1.15);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(.9);
+        opacity:.4;
+    }
+
+}
+
+@keyframes starMove{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(45px);
+    }
+
+}
+/*============================*/
+
+#mobileControls{
+
+position:absolute;
+
+left:20px;
+
+bottom:20px;
+
+display:none;
+
+}
+
+#joystickBase{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.12);
+
+}
+
+#joystickStick{
+
+width:70px;
+
+height:70px;
+
+border-radius:50%;
+
+background:white;
+
+margin:40px;
+
+}
+
+/*============================*/
+
+@media(max-width:900px){
+
+#mobileControls{
+
+display:block;
+
+}
+
+}
+/*==========================
+ENEMY BULLET
+==========================*/
+
+.enemyBullet{
+
+position:absolute;
+
+border-radius:50%;
+
+background:#9d00ff;
+
+box-shadow:
+
+0 0 20px #d000ff,
+0 0 50px purple;
+
+pointer-events:none;
+
+}
+/*==========================
+COSMIC EYE LASER
+==========================*/
+
+
+.laserWarning{
+
+position:absolute;
+
+height:8px;
+
+background:red;
+
+opacity:.35;
+
+box-shadow:
+
+0 0 20px red,
+
+0 0 50px red;
+
+pointer-events:none;
+
+z-index:9999;
+
+animation:
+
+laserWarningBlink .12s infinite alternate;
+
+}
+
+
+
+
+.laserBeam{
+
+    position:absolute;
+
+    height:32px;
+
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,0),
+        #ffffff 12%,
+        #89ffff 50%,
+        #ffffff 88%,
+        rgba(255,255,255,0)
+    );
+
+    box-shadow:
+        0 0 30px white,
+        0 0 80px cyan,
+        0 0 160px cyan;
+
+    pointer-events:none;
+    z-index:10000;
+
+    animation:laserFlash .08s infinite alternate;
+
+}
+.laserBeam.phase2{
+
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,0),
+        #ffffff 12%,
+        #00ff55 50%,
+        #ffffff 88%,
+        rgba(255,255,255,0)
+    );
+
+    box-shadow:
+        0 0 35px white,
+        0 0 100px #00ff55,
+        0 0 220px #00ff55;
+
+}
+
+.laserBeam.phase3{
+
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,0),
+        white 12%,
+        magenta 50%,
+        purple 88%,
+        rgba(255,255,255,0)
+    );
+
+    box-shadow:
+        0 0 60px white,
+        0 0 150px magenta,
+        0 0 250px purple;
+
+}
+
+@keyframes laserWarningBlink{
+
+
+from{
+
+opacity:.15;
+
+}
+
+
+to{
+
+opacity:.8;
+
+}
+
+
+}
+
+
+
+
+
+@keyframes laserFlash{
+
+
+from{
+
+transform:scaleY(.8);
+
+opacity:.7;
+
+}
+
+
+to{
+
+transform:scaleY(1.2);
+
+opacity:1;
+
+}
+
+
+}
+/*==========================
+COSMIC RAIN
+==========================*/
+
+
+.rainWarning{
+
+    position:absolute;
+
+    top:0;
+
+    width:8px;
+
+    height:100vh;
+
+    background:
+    rgba(255,255,0,.35);
+
+    animation:flash .2s infinite;
+
+    z-index:25;
+
+}
+
+.rainBeam{
+
+    position:absolute;
+    top:0;
+
+    width:24px;
+    height:100vh;
+
+    background:linear-gradient(
+    	to bottom,
+    	white,
+    	cyan,
+    	#00d5ff
+    );
+
+    animation:rainFall .15s infinite alternate;
+
+    box-shadow:
+        0 0 25px cyan,
+        0 0 60px white;
+
+    z-index:30;
+
+}
+
+
+
+.goldParticle{
+
+
+position:absolute;
+
+
+width:10px;
+
+
+height:10px;
+
+
+border-radius:50%;
+
+
+
+background:gold;
+
+
+
+box-shadow:
+
+0 0 20px gold,
+
+0 0 50px yellow;
+
+
+
+pointer-events:none;
+
+
+}
+.rainImpact{
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        white,
+        cyan,
+        transparent 70%
+    );
+
+    box-shadow:
+
+    0 0 40px cyan,
+    0 0 100px white;
+
+    animation:impact .5s forwards;
+
+    pointer-events:none;
+
+}
+
+@keyframes impact{
+
+    from{
+
+        transform:scale(.2);
+
+        opacity:1;
+
+    }
+
+    to{
+
+        transform:scale(2);
+
+        opacity:0;
+
+    }
+
+}
+@keyframes rainFall{
+
+    from{
+
+        transform:scaleX(.8);
+        opacity:.75;
+
+    }
+
+    to{
+
+        transform:scaleX(1.2);
+        opacity:1;
+
+    }
+
+}
+
+
+@keyframes rainBlink{
+
+
+from{
+
+opacity:.2;
+
+}
+
+
+to{
+
+opacity:.9;
+
+}
+
+
+}
+
+
+
+
+
+@keyframes beamFlash{
+
+
+from{
+
+transform:scaleX(.8);
+
+}
+
+
+to{
+
+transform:scaleX(1.2);
+
+}
+
+
+}
+#phaseFlash{
+
+    position:fixed;
+    inset:0;
+
+    background:white;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:99998;
+
+}
+/*====================================================
+BOSS SHATTER
+====================================================*/
+.bossShard{
+
+    position:fixed;
+
+    background-repeat:no-repeat;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    image-rendering:auto;
+
+}
+.bossCrack{
+
+    position:fixed;
+
+    width:6px;
+    height:90px;
+
+    background:white;
+
+    transform-origin:center;
+
+    box-shadow:
+        0 0 15px white,
+        0 0 35px cyan,
+        0 0 80px magenta;
+
+    animation:crackGlow .25s infinite alternate;
+
+    pointer-events:none;
+
+    z-index:99998;
+
+}
+
+@keyframes crackGlow{
+
+    from{
+
+        opacity:.4;
+        filter:brightness(1);
+
+    }
+
+    to{
+
+        opacity:1;
+        filter:brightness(3);
+
+    }
+
+}
+/*====================================================
+BLACK HOLE
+====================================================*/
+
+.black-hole{
+
+    position:absolute;
+
+    width:160px;
+    height:160px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        black 25%,
+        #16002b 45%,
+        #7b00ff 65%,
+        transparent 70%
+    );
+
+    box-shadow:
+    0 0 30px #8b00ff,
+    0 0 80px #4200ff,
+    0 0 120px #ff00ff;
+
+    animation:blackHoleSpin 2s linear infinite;
+
+    z-index:5;
+
+    pointer-events:none;
+
+}
+
+
+
+@keyframes blackHoleSpin{
+
+    from{
+        transform:rotate(0deg) scale(1);
+    }
+
+    to{
+        transform:rotate(360deg) scale(1.15);
+    }
+
+}
+.chargeWarning{
+
+    position:absolute;
+
+    height:18px;
+
+    transform-origin:left center;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(255,0,255,.2),
+        rgba(255,0,255,.9),
+        rgba(255,255,255,1)
+    );
+
+    box-shadow:
+    0 0 20px magenta,
+    0 0 60px purple;
+
+    animation:
+    warningBlink .18s infinite;
+
+    z-index:40;
+
+}
+
+@keyframes warningBlink{
+
+    50%{
+
+        opacity:.2;
+
+    }
+
+}
+
+
+.black-hole-particle{
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    background:#c000ff;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    transition:
+    .8s ease;
+
+    z-index:51;
+
+}
+/*=============================
+LAYER ORDER FIX
+=============================*/
+
+#player{
+    z-index:20;
+}
+
+#boss{
+    position:absolute;
+    z-index:20;
+}
+
+.enemyBullet,
+.laserBeam,
+.rainBeam{
+    z-index:15;
+}
+
+.black-hole{
+    position:absolute;
+    z-index:5;
+    pointer-events:none;
+}
+
+#bossUI,
+#dialogue{
+    z-index:100;
+}

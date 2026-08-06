@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="google" content="notranslate">
+<meta name="googlebot" content="notranslate">
+
+<title>The Cosmic Entity Burger</title>
+
+<link rel="stylesheet" href="boss.css">
+</head>
+
+<body translate="no">
+
+<div id="shakeContainer">
+
+<canvas id="space"></canvas>
+
+<div id="overlay"></div>
+
+<div id="particles"></div>
+
+<!--============================-->
+
+<div id="boss">
+
+<img
+id="bossSprite"
+src="https://static.wikia.nocookie.net/find-the-burgers/images/8/8c/Inverted_Burger.png/revision/latest?cb=20250610082643">
+
+<div id="bossEye">
+    <div id="bossPupil"></div>
+</div>
+
+</div>
+
+<!--============================-->
+
+<div id="bossHpContainer">
+
+<div id="bossName">
+
+THE COSMIC ENTITY BURGER
+
+</div>
+
+<div id="bossHpBar">
+
+<div id="bossHpFill"></div>
+
+</div>
+
+<div id="bossHpText">
+
+100 / 100
+
+</div>
+
+</div>
+
+<!--============================-->
+
+<div id="player">
+
+</div>
+
+<!--============================-->
+
+<div id="playerHp">
+
+<div class="heart"></div>
+<div class="heart"></div>
+<div class="heart"></div>
+
+</div>
+
+<!--============================-->
+
+<div id="dialogueBox">
+
+<p id="dialogue">
+
+"The stars are watching..."
+
+</p>
+
+</div>
+
+<!--============================-->
+
+<div id="phaseText">
+
+PHASE 1
+
+</div>
+
+<!--============================-->
+
+<div id="damageText"></div>
+
+<!--============================-->
+
+<div id="goldenLight"></div>
+
+<!--============================-->
+
+<div id="trophyScreen">
+
+<img
+src="assets/trophy.png">
+
+<h1>
+
+YOU DEFEATED
+
+THE COSMIC ENTITY BURGER
+
+</h1>
+
+<button id="continueButton">
+
+Continue
+
+</button>
+
+</div>
+
+<!--============================-->
+
+<div id="mobileControls">
+
+<div id="joystickBase">
+
+<div id="joystickStick"></div>
+
+</div>
+
+</div>
+
+<!--============================-->
+
+<audio
+id="bgm"
+loop>
+
+<source src="assets/bg.mp3">
+
+</audio>
+
+<audio
+id="laserSound">
+
+<source src="assets/laser.wav">
+
+</audio>
+
+<audio id="hitSound">
+    <source src="assets/hit.wav">
+</audio>
+
+</div>
+
+<!-- Flash khi chuyển Phase -->
+<div id="phaseFlash"></div>
+<div id="overlay"></div>
+<script src="boss.js"></script>
+</body>
+</html>
